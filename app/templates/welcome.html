@@ -1,0 +1,13 @@
+<!-- use the created basic.html jinja template to create a welcome page. just replace title and content blocks. inharit from the previous basic.html. -->
+ {%extends 'basic.html' %}
+{% block title %}Welcome{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Welcome to the Todo App</h1>
+                <p>This is a simple todo app. You can add, delete and update your todos.</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

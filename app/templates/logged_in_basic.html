@@ -1,0 +1,20 @@
+<!doctype html>
+<html>
+<head>
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/">Home</a>
+        <a class="navbar-brand" href="/events">My Events</a>
+        <a class="navbar-brand" href="/logout">Log Out</a>
+    </nav>
+    {% block content %}
+    {% endblock %}
+    <footer>
+        <p>&copy; 2020 Event Manager</p>
+    </footer>
+</body>
+
+</html>

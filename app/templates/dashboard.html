@@ -1,0 +1,13 @@
+{% extends 'logged_in_basic.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Welcome, {{ user.first_name }} {{ user.last_name }}</h1>
+                <p>You have created {{ num_events }} events.</p>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

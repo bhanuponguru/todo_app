@@ -1,0 +1,71 @@
+ {% extends 'logged_in_basic.html' %}
+ {% block title %}Events{% endblock %}
+ {% block content %}
+<!-- write a nice page containing events. first, make a button that opens a dialog, it should open the dialog by clicking the button. it is a create button opening to a dialog asking for details of new event and a submit button sending a post request to the same /events page. then create a table to display all the events, events is a list of event objects from mongoengine. -->
+ <div class="container">
+     <div class="row">
+         <div class="col-md-12">
+             <h1>Events</h1>
+             <!-- create a dialog/modal that should be opened on a button click. it should have form to create an event, followed by submit button sending post request to the /events page. -->
+              <dialog id="createEventDialog">
+                 <form action="/events" method="POST">
+                     <div class="form-group">
+                         <label for="name">Name</label>
+                         <input type="text" class="form-control" id="name" name="name">
+                        </div>
+                        <div class="form-group
+                        ">
+                            <label for="description">Description</label>
+                            <input type="text" class="form-control" id="description" name="description">
+                        </div>
+                        <div class="form-group
+                        ">
+                            <label for="date">Date</label>
+                            <input type="date" class="form-control" id="date" name="date">
+
+                        </div>
+                        <div class="form-group
+                        ">
+                            <label for="time">Time</label>
+                            <input type="time" class="form-control" id="time" name="time">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </dialog>
+                <button id="createEventButton" onclick="document.getElementById('createEventDialog').showModal()">Create Event</button>
+                
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for event in events %}
+                        <tr>
+                            <td>{{ event.title }}</td>
+                            <td>{{ event.description }}</td>
+                            <td>{{ event.due.date() }}</td>
+                            <td>{{ event.due.time() }}</td>
+                            <td>
+                                <dialog id="removeEventDialog{{ event.id }}">
+                                    <form action="/events/remove" method="POST">
+                                        <input type="hidden" name="event_id" value="{{ event.id }}">
+                                        <button type="submit" class="btn btn-danger">Remove</button>
+                                        <button type="button" class="btn btn-secondary" onclick="document.getElementById('removeEventDialog{{ event.id }}').close()">Cancel</button>
+                                    </form>
+                                </dialog>
+                                <button onclick="document.getElementById('removeEventDialog{{ event.id }}').showModal()">Remove</button>
+                            </td>
+
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+ {% endblock %}
