@@ -1,4 +1,3 @@
-import threading
 from flask import Flask, render_template, request, session, redirect
 from datetime import datetime
 from .models import *
@@ -12,22 +11,6 @@ app.config['MONGODB_SETTINGS'] = {
     'port': 27017
 }
 db.init_app(app)
-
-def process_events():
-    while 1:
-        events=Event.objects()
-        for event in events:
-            if event.due<datetime.now():
-                event.delete()
-
-
-@app.before_first_request
-def activate_job():
-    thread = threading.Thread(target=process_events)
-    thread.daemon = True
-    thread.start()
-
-
 
 @app.route("/")
 def home():
@@ -92,6 +75,18 @@ def events():
     return render_template("events.html",events=events)
 
 
+@app.route('/events/edit', methods=['post'])
+def edit_event():
+    if 'user_id' in session:
+        event_id=request.form['event_id']
+        date=request.form['date']
+        time=request.form['time']
+        due=datetime.strptime(date+" "+time,"%Y-%m-%d %H:%M")
+        event=Event.objects(id=event_id).first()
+        event.due=due
+        event.save()
+        return redirect("/events")
+    
 @app.route('/events/remove', methods=['post'])
 def remove_event():
     if 'user_id' in session:
